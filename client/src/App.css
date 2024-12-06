@@ -1,42 +1,85 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
+/* General Styles */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f0f8ff; /* Light blue background for the page */
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
+  height: 100vh; /* Full viewport height */
+  text-align: center; /* Center the text */
+}
+
+/* Container for the form */
+.container {
+  width: 100%;
+  max-width: 500px;
+  background-color: #ffffff; /* White background for the container */
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+h1 {
+  color: #1e3a8a; /* Dark blue color */
+  margin-bottom: 20px;
+}
+
+/* Error message */
+p {
+  color: red;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+/* Form Inputs */
+input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 16px;
+  background-color: #f9fafb; /* Light grey background */
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+input:focus {
+  border-color: #1e3a8a; /* Dark blue border on focus */
+  outline: none;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* Buttons */
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #1e3a8a; /* Dark blue */
+  color: #ffffff; /* White text */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-.card {
-  padding: 2em;
+button:hover {
+  background-color: #2563eb; /* Lighter blue on hover */
 }
 
-.read-the-docs {
-  color: #888;
+button:disabled {
+  background-color: #ddd;
+  cursor: not-allowed;
+}
+
+/* Switch between login and signup */
+button.switch {
+  background-color: transparent;
+  color: #1e3a8a; /* Dark blue */
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
+  margin-top: 15px;
+}
+
+button.switch:hover {
+  color: #2563eb; /* Lighter blue on hover */
 }

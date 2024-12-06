@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { Route, Routes, useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
 import BookList from './components/BookList'; // Import your BookPage component
+import './App.css'; // Import the App.css file
 
 const App = () => {
     const [form, setForm] = useState({ username: '', email: '', password: '' });
@@ -43,10 +44,10 @@ const App = () => {
     }
 
     return (
-        <div style={{ padding: '20px', fontFamily: 'Arial' }}>
+        <div className="container">
             <h1>{authMode === 'signup' ? 'Sign Up' : 'Login'}</h1>
 
-            {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>}
+            {errorMessage && <p>{errorMessage}</p>}
 
             <form onSubmit={handleSubmit}>
                 {authMode === 'signup' && (
@@ -81,7 +82,7 @@ const App = () => {
                 <button type="submit">{authMode === 'signup' ? 'Sign Up' : 'Login'}</button>
             </form>
 
-            <button onClick={() => setAuthMode(authMode === 'signup' ? 'login' : 'signup')}>
+            <button className="switch" onClick={() => setAuthMode(authMode === 'signup' ? 'login' : 'signup')}>
                 {authMode === 'signup' ? 'Already have an account? Login' : 'Create an account'}
             </button>
         </div>
