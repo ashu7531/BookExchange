@@ -1,44 +1,63 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const AddBookForm = ({ token, onBookAdded }) => {
+const AddBookForm = ({ token, onBookAdded, ownerId }) => {
     const [formData, setFormData] = useState({
         title: '',
         author: '',
         genre: '',
-        condition: ''
+        condition: '',
+        image: null, // Initialize the image field as null
     });
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData((prev) => ({
             ...prev,
-            [name]: value
+            [name]: value,
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleFileChange = (e) => {
+        setFormData((prev) => ({
+            ...prev,
+            image: e.target.files[0], // Store the uploaded file
+        }));
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
 
-        axios.post('http://localhost:5000/api/books/', formData, {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-            .then((response) => {
-                alert('Book added successfully!');
-                onBookAdded(response.data);  // Notify the parent component to refresh the book list
-                setFormData({
-                    title: '',
-                    author: '',
-                    genre: '',
-                    condition: ''
-                });
-            })
-            .catch((error) => {
-                console.error('Error adding book:', error);
-                alert('Error adding book.');
+        const data = new FormData();
+        data.append('title', formData.title);
+        data.append('author', formData.author);
+        data.append('genre', formData.genre);
+        data.append('condition', formData.condition);
+        data.append('image', formData.image); // Append the image file
+        if (ownerId) {
+            data.append('owner', ownerId); // Append the owner ID if provided
+        }
+
+        try {
+            const response = await axios.post('http://localhost:5000/api/books/', data, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                    'Content-Type': 'multipart/form-data', // Set the content type for file uploads
+                },
             });
+            alert('Book added successfully!');
+            onBookAdded(response.data); // Notify the parent component
+            setFormData({
+                title: '',
+                author: '',
+                genre: '',
+                condition: '',
+                image: null,
+            });
+        } catch (error) {
+            console.error('Error adding book:', error);
+            alert('Error adding book.');
+        }
     };
 
     return (
@@ -53,6 +72,7 @@ const AddBookForm = ({ token, onBookAdded }) => {
                         value={formData.title}
                         onChange={handleChange}
                         style={styles.input}
+                        required
                     />
                 </div>
                 <div style={styles.inputContainer}>
@@ -63,6 +83,7 @@ const AddBookForm = ({ token, onBookAdded }) => {
                         value={formData.author}
                         onChange={handleChange}
                         style={styles.input}
+                        required
                     />
                 </div>
                 <div style={styles.inputContainer}>
@@ -85,7 +106,18 @@ const AddBookForm = ({ token, onBookAdded }) => {
                         style={styles.input}
                     />
                 </div>
-                <button type="submit" style={styles.button}>Add Book</button>
+                <div style={styles.inputContainer}>
+                    <input
+                        type="file"
+                        name="image"
+                        onChange={handleFileChange}
+                        style={styles.input}
+                        required
+                    />
+                </div>
+                <button type="submit" style={styles.button}>
+                    Add Book
+                </button>
             </form>
         </div>
     );
@@ -93,7 +125,7 @@ const AddBookForm = ({ token, onBookAdded }) => {
 
 const styles = {
     container: {
-        backgroundColor: '#f0f8ff', // Light blue background
+        backgroundColor: '#f0f8ff',
         padding: '20px',
         borderRadius: '8px',
         width: '100%',
@@ -103,7 +135,7 @@ const styles = {
     },
     header: {
         textAlign: 'center',
-        color: '#1e3a8a', // Dark blue text color
+        color: '#1e3a8a',
         marginBottom: '20px',
     },
     form: {
@@ -122,8 +154,8 @@ const styles = {
         fontSize: '16px',
     },
     button: {
-        backgroundColor: '#1e3a8a', // Dark blue background for the button
-        color: '#fff', // White text
+        backgroundColor: '#1e3a8a',
+        color: '#fff',
         padding: '10px 15px',
         border: 'none',
         borderRadius: '4px',

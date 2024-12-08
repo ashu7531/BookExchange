@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; 
 import axios from 'axios';
-import BookList from './components/BookList'; // Import your BookPage component
-import './App.css'; // Import the App.css file
+import HomePage from './components/HomePage'; // Import the Homepage component
 
 const App = () => {
     const [form, setForm] = useState({ username: '', email: '', password: '' });
@@ -38,9 +37,9 @@ const App = () => {
         }
     };
 
-    // If the user is logged in, show the BookList, otherwise show the login/signup form
+    // If the user is logged in, show the Homepage, otherwise show the login/signup form
     if (token) {
-        return <BookList token={token} />;
+        return <HomePage token={token} />;
     }
 
     return (

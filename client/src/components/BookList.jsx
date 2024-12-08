@@ -1,76 +1,119 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import AddBookForm from './AddBookForm';  // Import the AddBookForm component
+import AddBookForm from './AddBookForm';
+import './BookList.css';
 
 const BookList = ({ token }) => {
     const [books, setBooks] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isFormVisible, setIsFormVisible] = useState(false); // To toggle AddBookForm visibility
+
+    // Get user ID from token (JWT token payload decoding)
+    const getUserIdFromToken = (token) => {
+        const payload = JSON.parse(atob(token.split('.')[1])); // Decoding the token
+        return payload.userId;
+    };
+
+    const userId = getUserIdFromToken(token); // Extract owner ID
 
     useEffect(() => {
         if (!token) {
-            // If the user is not authenticated, redirect them to login
             window.location.href = '/';
             return;
         }
 
-        // Fetch the books from the backend
-        axios.get('http://localhost:5000/api/books', {
-            headers: {
-                Authorization: `Bearer ${token}`
-            }
-        })
-            .then((response) => setBooks(response.data))
-            .catch((error) => console.error('Error fetching books:', error));
+        axios
+            .get('http://localhost:5000/api/books', {
+                headers: { Authorization: `Bearer ${token}` },
+            })
+            .then((response) => {
+                setBooks(response.data);
+                setIsLoading(false);
+            })
+            .catch((error) => {
+                console.error('Error fetching books:', error);
+                setIsLoading(false);
+            });
     }, [token]);
 
-    // Function to handle the newly added book
     const handleBookAdded = (newBook) => {
-        setBooks((prevBooks) => [newBook, ...prevBooks]);  // Add the new book to the list
+        setBooks((prevBooks) => [newBook, ...prevBooks]);
+        setIsFormVisible(false); // Hide form after book is added
     };
 
+    const handleBorrowRequest = (bookId) => {
+        axios
+            .post(
+                'http://localhost:5000/api/borrowrequests',
+                {
+                    bookId,
+                    borrowerId: userId, // Include userId
+                },
+                {
+                    headers: { Authorization: `Bearer ${token}` },
+                }
+            )
+            .then(() => {
+                alert('Borrow request sent!');
+            })
+            .catch((error) => {
+                alert('Failed to send borrow request. Please try again.');
+                console.error('Error sending borrow request:', error);
+            });
+    };
+
+    if (isLoading) {
+        return <div className="loading">Loading books...</div>;
+    }
+
     return (
-        <div style={styles.container}>
-            <h1 style={styles.header}>Available Books</h1>
-
-            {/* Render the AddBookForm component */}
-            <AddBookForm token={token} onBookAdded={handleBookAdded} />
-
-            <ul style={styles.bookList}>
-                {books.map((book, index) => (
-                    <li key={index} style={styles.bookItem}>
-                        <strong>{book.title}</strong> by {book.author}
-                    </li>
-                ))}
-            </ul>
+        <div className="book-list-container">
+            <h1 className="book-list-header">Available Books</h1>
+            <button className="add-book-button" onClick={() => setIsFormVisible(true)}>
+                Add Book
+            </button>
+            {isFormVisible && (
+                <div className="form-modal">
+                    <div className="form-modal-content">
+                        <button className="close-button" onClick={() => setIsFormVisible(false)}>
+                            ×
+                        </button>
+                        <AddBookForm token={token} onBookAdded={handleBookAdded} ownerId={userId} />
+                    </div>
+                </div>
+            )}
+            {books.length === 0 ? (
+                <p className="empty-state">No books available at the moment.</p>
+            ) : (
+                <div className="book-card-container">
+                    {books.map((book, index) => (
+                        <div key={index} className="book-card">
+                            {book.image && (
+                                <img
+                                    src={`http://localhost:5000${book.image}`}
+                                    alt={book.title}
+                                    className="book-card-image"
+                                />
+                            )}
+                            <div className="book-card-content">
+                                <h2 className="book-card-title">{book.title}</h2>
+                                <p className="book-card-author">by {book.author}</p>
+                                <p className="book-card-genre">Genre: {book.genre || 'N/A'}</p>
+                                <p className="book-card-condition">Condition: {book.condition || 'N/A'}</p>
+                            </div>
+                            <button
+                                className="borrow-button"
+                                onClick={() => handleBorrowRequest(book._id)}
+                                disabled={book.isBorrowed}
+                            >
+                                {book.isBorrowed ? 'Already Borrowed' : 'Borrow'}
+                            </button>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
-};
-
-const styles = {
-    container: {
-        backgroundColor: '#f0f8ff',  // Light blue background
-        padding: '20px',
-        borderRadius: '8px',
-        width: '100%',
-        maxWidth: '600px',
-        margin: '0 auto',
-        boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-    },
-    header: {
-        textAlign: 'center',
-        color: '#1e3a8a',  // Dark blue color
-        marginBottom: '20px',
-    },
-    bookList: {
-        listStyleType: 'none',
-        padding: '0',
-    },
-    bookItem: {
-        backgroundColor: '#ffffff',  // White background for each book item
-        padding: '10px',
-        marginBottom: '10px',
-        borderRadius: '5px',
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)',
-    },
 };
 
 export default BookList;
