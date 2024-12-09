@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; 
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import HomePage from './components/HomePage'; // Import the Homepage component
+import Cart from './components/Cart';
 
 const App = () => {
     const [form, setForm] = useState({ username: '', email: '', password: '' });
@@ -37,11 +38,17 @@ const App = () => {
         }
     };
 
-    // If the user is logged in, show the Homepage, otherwise show the login/signup form
+    // If the user is logged in, show the Homepage with a navigation button for Cart
     if (token) {
-        return <HomePage token={token} />;
+        return (
+            <div>
+                <HomePage token={token} />
+                <Cart token={token} />
+            </div>
+        );
     }
 
+    // Show the login/signup form if the user is not logged in
     return (
         <div className="container">
             <h1>{authMode === 'signup' ? 'Sign Up' : 'Login'}</h1>

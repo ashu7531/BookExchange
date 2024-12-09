@@ -103,4 +103,20 @@ router.get('/my-requests/:userId', async (req, res) => {
     }
 });
 
+// Fetch borrow requests for a specific owner
+router.get('/owner/:userId', async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const requests = await BorrowRequest.find({ owner: userId })
+            .populate('book borrower')
+            .exec();
+        res.json(requests);
+    } catch (error) {
+        console.error('Error fetching owner requests:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+
 module.exports = router;
