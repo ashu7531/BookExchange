@@ -1,0 +1,54 @@
+/* General Container */
+.homepage-container {
+    padding: 20px;
+    background-color: #f5f5f5; /* Light Gray */
+    min-height: 100vh; /* Full-page height */
+}
+
+/* Header */
+.homepage-header {
+    text-align: center;
+    color: #1e3a8a; /* Blue */
+    font-size: 28px;
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+/* Navigation Bar */
+.homepage-nav {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    gap: 15px; /* Spacing between links */
+}
+
+.homepage-nav-link {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 15px;
+    background-color: #1e3a8a; /* Blue */
+    border-radius: 4px;
+    transition: all 0.3s;
+}
+
+.homepage-nav-link:hover {
+    background-color: #174ca1; /* Darker Blue */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .homepage-header {
+        font-size: 24px;
+    }
+
+    .homepage-nav {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .homepage-nav-link {
+        margin-bottom: 10px;
+        padding: 10px 20px;
+    }
+}

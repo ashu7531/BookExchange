@@ -105,7 +105,6 @@ const BookList = ({ token }) => {
 
     return (
         <div className="book-list-container">
-            <h1 className="book-list-header">Available Books</h1>
             <div className="button-group">
                 <button className="add-book-button" onClick={() => setIsFormVisible(true)}>
                     Add Book

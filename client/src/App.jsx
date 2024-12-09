@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import HomePage from './components/HomePage'; // Import the Homepage component
-import Cart from './components/Cart';
+import './App.css'
 
 const App = () => {
     const [form, setForm] = useState({ username: '', email: '', password: '' });
@@ -32,7 +32,7 @@ const App = () => {
                 .then((response) => {
                     setToken(response.data.token); // Store token after successful login
                     alert('Login successful');
-                    navigate('/books'); // Redirect to /books page
+                    navigate('/booklist'); // Redirect to /books page
                 })
                 .catch((error) => setErrorMessage(error.response.data.error || 'Login failed'));
         }
@@ -43,7 +43,6 @@ const App = () => {
         return (
             <div>
                 <HomePage token={token} />
-                <Cart token={token} />
             </div>
         );
     }

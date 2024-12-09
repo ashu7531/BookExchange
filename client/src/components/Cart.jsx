@@ -54,9 +54,6 @@ const Cart = ({ token }) => {
 
     return (
         <div className="cart-container">
-            <button className="back-button" onClick={() => navigate(-1)}>
-                Back
-            </button>
             <h1>Your Cart</h1>
             {cartItems.length === 0 ? (
                 <p className="empty-cart">Your cart is empty.</p>

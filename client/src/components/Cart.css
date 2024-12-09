@@ -1,0 +1,93 @@
+/* General Container */
+.cart-container {
+    padding: 20px;
+    background-color: #f5f5f5; /* Light Gray */
+    min-height: 100vh; /* Full-page height */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Header */
+.cart-container h1 {
+    font-size: 28px;
+    color: #1e3a8a; /* Blue */
+    margin-bottom: 20px;
+}
+
+/* Empty Cart Message */
+.empty-cart {
+    font-size: 18px;
+    color: #333; /* Neutral text color */
+    margin-top: 20px;
+}
+
+/* Loading Text */
+.loading {
+    font-size: 18px;
+    color: #1e3a8a; /* Blue */
+    font-weight: bold;
+}
+
+/* Cart Items Container */
+.cart-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+/* Individual Cart Item */
+.cart-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
+    border: 1px solid #e0e0e0; /* Subtle border */
+    border-radius: 8px;
+    background-color: #ffffff; /* White */
+    width: 250px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cart-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Hover effect */
+}
+
+/* Book Image */
+.cart-item-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 15px;
+}
+
+/* Book Details */
+.cart-item-details h2 {
+    font-size: 20px;
+    color: #1e3a8a; /* Blue */
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.cart-item-details p {
+    font-size: 14px;
+    color: #555; /* Neutral text */
+    margin: 5px 0;
+    text-align: center;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .cart-item {
+        width: 100%;
+    }
+
+    .cart-item-image {
+        height: 150px;
+    }
+}
