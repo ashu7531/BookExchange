@@ -2,7 +2,7 @@ import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
 import BookList from './BookList';
 import Cart from './Cart';
-import './Homepage.css'; // Import the external CSS file
+import './HomePage.css'; // Import the external CSS file
 
 const Homepage = ({ token }) => {
     return (
