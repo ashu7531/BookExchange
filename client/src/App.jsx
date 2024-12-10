@@ -19,7 +19,7 @@ const App = () => {
         e.preventDefault();
 
         if (authMode === 'signup') {
-            axios.post('http://localhost:5000/api/auth/signup', form)
+            axios.post('https://bookexchange-q7kq.onrender.com/api/auth/signup', form)
                 .then((response) => {
                     alert('Signup successful');
                     setForm({ username: '', email: '', password: '' });
@@ -28,7 +28,7 @@ const App = () => {
                 })
                 .catch((error) => setErrorMessage(error.response.data.error || 'Signup failed'));
         } else if (authMode === 'login') {
-            axios.post('http://localhost:5000/api/auth/login', form)
+            axios.post('https://bookexchange-q7kq.onrender.com/api/auth/login', form)
                 .then((response) => {
                     setToken(response.data.token); // Store token after successful login
                     alert('Login successful');

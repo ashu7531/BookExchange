@@ -28,7 +28,7 @@ const BookList = ({ token }) => {
 
         // Fetch books
         axios
-            .get('http://localhost:5000/api/books', {
+            .get('https://bookexchange-q7kq.onrender.com/api/books', {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((response) => {
@@ -49,7 +49,7 @@ const BookList = ({ token }) => {
     const handleBorrowRequest = (bookId) => {
         axios
             .post(
-                'http://localhost:5000/api/borrowrequests',
+                'https://bookexchange-q7kq.onrender.com/api/borrowrequests',
                 { bookId, borrowerId: userId },
                 { headers: { Authorization: `Bearer ${token}` } }
             )
@@ -64,7 +64,7 @@ const BookList = ({ token }) => {
 
     const fetchBorrowRequests = () => {
         axios
-            .get(`http://localhost:5000/api/borrowrequests/owner/${userId}`, {
+            .get(`https://bookexchange-q7kq.onrender.com/api/borrowrequests/owner/${userId}`, {
                 headers: { Authorization: `Bearer ${token}` },
             })
             .then((response) => {
@@ -83,7 +83,7 @@ const BookList = ({ token }) => {
     const respondToRequest = (requestId, status) => {
         axios
             .post(
-                'http://localhost:5000/api/borrowrequests/respond',
+                'https://bookexchange-q7kq.onrender.com/api/borrowrequests/respond',
                 { requestId, status },
                 { headers: { Authorization: `Bearer ${token}` } }
             )
@@ -166,7 +166,7 @@ const BookList = ({ token }) => {
 
                             {book.image && (
                                 <img
-                                    src={`http://localhost:5000${book.image}`}
+                                    src={`https://bookexchange-q7kq.onrender.com${book.image}`}
                                     alt={book.title}
                                     className="book-card-image"
                                 />

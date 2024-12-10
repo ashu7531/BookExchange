@@ -24,13 +24,13 @@ const Cart = ({ token }) => {
 
         const fetchCartItems = async () => {
             try {
-                const ownedBooksResponse = await axios.get('http://localhost:5000/api/books', {
+                const ownedBooksResponse = await axios.get('https://bookexchange-q7kq.onrender.com/api/books', {
                     headers: { Authorization: `Bearer ${token}` },
                 });
                 const ownedBooks = ownedBooksResponse.data.filter((book) => book.owner === userId);
 
                 const borrowRequestsResponse = await axios.get(
-                    `http://localhost:5000/api/borrowrequests/my-requests/${userId}`,
+                    `https://bookexchange-q7kq.onrender.com/api/borrowrequests/my-requests/${userId}`,
                     { headers: { Authorization: `Bearer ${token}` } }
                 );
                 const borrowedBooks = borrowRequestsResponse.data
@@ -63,7 +63,7 @@ const Cart = ({ token }) => {
                         <div key={index} className="cart-item">
                             {book.image && (
                                 <img
-                                    src={`http://localhost:5000${book.image}`}
+                                    src={`https://bookexchange-q7kq.onrender.com${book.image}`}
                                     alt={book.title}
                                     className="cart-item-image"
                                 />
